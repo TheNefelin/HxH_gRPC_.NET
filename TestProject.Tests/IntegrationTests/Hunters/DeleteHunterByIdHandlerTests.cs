@@ -62,7 +62,7 @@ public class DeleteHunterByIdHandlerTests
     //    // Arrange
     //    var dbContext = new OracleDbContext(_realConnectionString, _dbLogger);
     //    var handler = new DeleteHunterByIdHandler(dbContext, _handlerLogger);
-    //    var command = new DeleteHunterByIdCommand { Id_Hunter = 22 }; // Assuming 1 is a valid Id_Hunter
+    //    var command = new DeleteHunterByIdCommand { Id_Hunter = 29 }; // Assuming 1 is a valid Id_Hunter
     //    var cancellationToken = CancellationToken.None;
     //    // Act
     //    var result = await handler.Handle(command, cancellationToken);

@@ -36,8 +36,7 @@ graph TD;
 │   │   ├── Hunters/
 │   │   │   ├── Create/
 │   │   │   │   ├── CreateHunterCommand.cs
-│   │   │   │   ├── CreateHunterHandler.cs
-│   │   │   │   └── CreateHunterDto.cs
+│   │   │   │   └── CreateHunterHandler.cs
 │   │   │   ├── Delete/
 │   │   │   │   ├── DeleteHunterCommand.cs
 │   │   │   │   └── DeleteHunterHandler.cs
@@ -63,8 +62,10 @@ graph TD;
 └── TestProject.Tests/
     ├── IntegrationTests/
     │   ├── Hunters/
-    │   │   ├──GetAllHuntersHandlerTests.cs
-    │   │   └──GetHunterByIdHandlerTests.cs
+    │   │   ├── CreateHunterHandlerTests.cs
+    │   │   ├── DeleteHunterByIdHandlerTests.cs
+    │   │   ├── GetAllHuntersHandlerTests.cs
+    │   │   └── GetHunterByIdHandlerTests.cs
     │   └── OracleDbContextIntegrationTests.cs
     └── UnitTests/
         └── notimplement.cs
