@@ -50,16 +50,21 @@ graph TD;
 │   │   │   ├── Update/
 │   │   │   │   ├── UpdateHunterCommand.cs
 │   │   │   │   └── UpdateHunterHandler.cs
-│   │   │   └── HunterDto.cs
+│   │   │   ├── HunterDto.cs
+│   │   │   └── HunterMapper.cs
 │   │   └── NenTypes/
 │   │       └── ...
-│   └── Infrastructure
-│       └── OracleDbContext.cs
+│   ├── Infrastructure
+│   │   └── OracleDbContext.cs
+│   └── Shared/
+│       └── Common/
+│           └── QueryResult.cs
 │
 └── TestProject.Tests/
     ├── IntegrationTests/
     │   ├── Hunters/
-    │   │   └──GetAllHuntersHandlerTests.cs
+    │   │   ├──GetAllHuntersHandlerTests.cs
+    │   │   └──GetHunterByIdHandlerTests.cs
     │   └── OracleDbContextIntegrationTests.cs
     └── UnitTests/
         └── notimplement.cs

@@ -29,15 +29,7 @@ public class GetHunterByIdHandler
             return null;
         }
 
-        var row = dataTable.Rows[0];
-
-        var hunter = new HunterDto
-        {
-            Id_Hunter = Convert.ToInt32(row["Id_Hunter"]),
-            Name = row["Name"].ToString(),
-            Age = Convert.ToInt32(row["Age"]),
-            Origin = row["Origin"].ToString()
-        };
+        var hunter = HunterMapper.FromDataRow(dataTable.Rows[0]);
 
         _logger.LogInformation("[GetHunterByIdHandler] Retrieved hunter with Id: {Id_Hunter}", hunter.Id_Hunter);
         return hunter;

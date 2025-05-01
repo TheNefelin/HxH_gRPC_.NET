@@ -25,15 +25,7 @@ public class GetAllHuntersHandler
 
         foreach (DataRow row in dataTable.Rows)
         {
-            var hunter = new HunterDto
-            {
-                Id_Hunter = Convert.ToInt32(row["Id_Hunter"]),
-                Name = row["Name"].ToString(),
-                Age = Convert.ToInt32(row["Age"]),
-                Origin = row["Origin"].ToString()
-            };
-
-            hunters.Add(hunter);
+            hunters.Add(HunterMapper.FromDataRow(row));
         }
 
         _logger.LogInformation("[GetAllHuntersHandler] Retrieved {Count} hunters.", hunters.Count);
