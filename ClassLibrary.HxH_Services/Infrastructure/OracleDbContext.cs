@@ -16,6 +16,7 @@ public class OracleDbContext
     }
 
     // INSERT, UPDATE, DELETE, TRUNCATE, CREATE TABLE, ALTER TABLE, BEGIN NULL; END;
+    // Return affected Rows
     public async Task<int> ExecuteNonQueryAsync(CancellationToken cancellationToken, string query, params OracleParameter[] parameters)
     {
         try

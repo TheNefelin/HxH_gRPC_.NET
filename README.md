@@ -6,6 +6,10 @@
 Microsoft.Extensions.Logging.Abstractions
 Oracle.ManagedDataAccess.Core
 ```
+- TestProject.Tests
+```
+ClassLibrary.HxH_Services
+```
 
 ### Design Patterns
 - **CQRS** : Command Query Responsibility Segregation
@@ -50,7 +54,9 @@ graph TD;
 │   │   │   │   ├── UpdateHunterCommand.cs
 │   │   │   │   └── UpdateHunterHandler.cs
 │   │   │   ├── HunterDto.cs
-│   │   │   └── HunterMapper.cs
+│   │   │   ├── HunterMapper.cs
+│   │   │   ├── HunterValidationId.cs
+│   │   │   └── HunterValidationRules.cs
 │   │   └── NenTypes/
 │   │       └── ...
 │   ├── Infrastructure
@@ -65,7 +71,8 @@ graph TD;
     │   │   ├── CreateHunterHandlerTests.cs
     │   │   ├── DeleteHunterByIdHandlerTests.cs
     │   │   ├── GetAllHuntersHandlerTests.cs
-    │   │   └── GetHunterByIdHandlerTests.cs
+    │   │   ├── GetHunterByIdHandlerTests.cs
+    │   │   └── UpdateHunterHandlerTests.cs
     │   └── OracleDbContextIntegrationTests.cs
     └── UnitTests/
         └── notimplement.cs

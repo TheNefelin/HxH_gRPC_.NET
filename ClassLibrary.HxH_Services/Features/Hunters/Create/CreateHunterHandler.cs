@@ -22,22 +22,11 @@ public class CreateHunterHandler
     {
         _logger.LogInformation("[CreateHunterHandler] Start handling CreateHunterCommand.");
 
-        if (string.IsNullOrWhiteSpace(command.Name))
+        var validatetionResult = HunterValidationRules.Validate(command.Name, command.Age, command.Origin);
+        if (validatetionResult != null)
         {
-            _logger.LogWarning("[CreateHunterHandler] Invalid Name: {Name}", command.Name);
-            return QueryResult<int>.Failure("Invalid Name");
-        }
-
-        if (string.IsNullOrWhiteSpace(command.Origin))
-        {
-            _logger.LogWarning("[CreateHunterHandler] Invalid Origin: {Origin}", command.Origin);
-            return QueryResult<int>.Failure("Invalid Origin");
-        }
-
-        if (command.Age <= 0)
-        {
-            _logger.LogWarning("[CreateHunterHandler] Invalid Age: {Age}", command.Age);
-            return QueryResult<int>.Failure("Invalid Age");
+            _logger.LogWarning("[CreateHunterHandler] Validation failed: {ValidationResult}", validatetionResult);
+            return QueryResult<int>.Failure(validatetionResult);
         }
 
         try

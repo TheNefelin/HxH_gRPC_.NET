@@ -36,7 +36,7 @@ INSERT INTO NEN_TYPE (NAME, DESCRIPTION) VALUES ('Manipulación', 'Controla obje
 INSERT INTO HUNTER (NAME, AGE, ORIGIN) VALUES ('Gon Freecss', 14, 'Isla Ballena');
 INSERT INTO HUNTER (NAME, AGE, ORIGIN) VALUES ('Killua Zoldyck', 14, 'Montaña Kukuru');
 INSERT INTO HUNTER (NAME, AGE, ORIGIN) VALUES ('Kurapika Kurta', 17, 'Aldea Kurta');
-INSERT INTO HUNTER (NAME, AGE, ORIGIN) VALUES ('Leorio Paradinight', 19, 'Ciudad desconocida');
+INSERT INTO HUNTER (NAME, AGE, ORIGIN) VALUES ('Leorio Paladiknight', 19, 'Ciudad desconocida');
 
 INSERT INTO HUNTER_NEN (ID_HUNTER, ID_NEN_TYPE, NEN_LEVEL) VALUES (1, 1, 90.0);
 INSERT INTO HUNTER_NEN (ID_HUNTER, ID_NEN_TYPE, NEN_LEVEL) VALUES (2, 2, 80.5);
@@ -47,14 +47,135 @@ INSERT INTO HUNTER_NEN (ID_HUNTER, ID_NEN_TYPE, NEN_LEVEL) VALUES (4, 5, 65.0);
 -- --------------------------------------------------------------
 
 CREATE OR REPLACE TYPE ResultObj AS OBJECT (
-    IsSuccess   NUMBER(1),
-    Message     VARCHAR2(255),
-    Data        VARCHAR2(255)
+    IsSuccess NUMBER(1),
+    Message VARCHAR2(255),
+    Data VARCHAR2(255)
 );
 
 -- Stored Procedure ---------------------------------------------
 -- --------------------------------------------------------------
 
+CREATE OR REPLACE NONEDITIONABLE PROCEDURE sp_hunter_get_all(
+    p_cursor OUT SYS_REFCURSOR,
+    p_result OUT ResultObj
+)
+AS
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Execute sp_hunter_get_all');
+
+    OPEN p_cursor FOR
+        SELECT id_hunter, name, age, origin FROM hunter ORDER BY id_hunter;
+
+    p_result := ResultObj(1, 'All hunters retrieved successfully', NULL);
+EXCEPTION
+    WHEN OTHERS THEN
+        p_result := ResultObj(0, SQLERRM, NULL);
+        p_cursor := NULL;
+END;
+
+CREATE OR REPLACE NONEDITIONABLE PROCEDURE sp_hunter_get_by_id(
+    p_id_hunter IN hunter.id_hunter%TYPE,
+    p_cursor OUT SYS_REFCURSOR,
+    p_result OUT ResultObj
+)
+AS
+    v_count NUMBER;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Execute sp_hunter_get_by_id');
+
+    IF p_id_hunter IS NULL THEN
+        p_result := ResultObj(0, 'Id_Hunter is required', NULL);
+        RETURN;
+    END IF;
+
+    SELECT COUNT(*) INTO v_count FROM hunter WHERE id_hunter = p_id_hunter;
+    IF v_count = 0 THEN
+        p_result := ResultObj(0, 'Hunter does not exist', NULL);
+        RETURN;
+    END IF;
+
+    OPEN p_cursor FOR
+        SELECT id_hunter, name, age, origin FROM hunter WHERE id_hunter = p_id_hunter;
+
+    p_result := ResultObj(1, 'Hunter found', NULL);
+EXCEPTION
+    WHEN OTHERS THEN
+        p_result := ResultObj(0, SQLERRM, NULL);
+        p_cursor := NULL;
+END;
+
+CREATE OR REPLACE NONEDITIONABLE PROCEDURE sp_hunter_insert(
+    p_name IN hunter.name%TYPE,
+    p_age IN hunter.age%TYPE,
+    p_origin IN hunter.origin%TYPE,
+    p_result OUT ResultObj
+)
+AS
+    v_id_hunter hunter.id_hunter%TYPE;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Execute sp_hunter_insert'); 
+
+    IF p_name IS NULL OR p_age IS NULL OR p_origin IS NULL THEN
+        p_result := ResultObj(0, 'Name, Age, and Origin are required', NULL);
+        RETURN;
+    END IF;
+
+    IF p_age <= 0 THEN
+        p_result := ResultObj(0, 'Age must be greater than 0', NULL);
+        RETURN;
+    END IF;    
+
+    INSERT INTO hunter (name, age, origin)
+    VALUES (p_name, p_age, p_origin)
+    RETURNING id_hunter INTO v_id_hunter;
+
+    COMMIT;
+
+    p_result := ResultObj(1, 'Hunter inserted successfully', TO_CHAR(v_id_hunter));
+EXCEPTION
+    WHEN OTHERS THEN
+        p_result := ResultObj(0, SQLERRM, NULL);
+        ROLLBACK;    
+END;
+
+CREATE OR REPLACE NONEDITIONABLE PROCEDURE sp_hunter_delete(
+    p_id_hunter hunter.id_hunter%TYPE,
+    p_result OUT ResultObj
+)
+AS
+    v_count NUMBER;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Execute sp_hunter_delete');
+
+    IF p_id_hunter IS NULL THEN
+        p_result := ResultObj(0, 'Parameter id_hunter cannot be NULL', NULL);
+        RETURN;
+    END IF;
+
+    SELECT COUNT(1) INTO v_count FROM hunter_nen WHERE id_hunter = p_id_hunter;
+
+    IF v_count > 0 THEN
+        p_result := ResultObj(0, 'This hunter has dependencies in hunter_nen', null);
+        RETURN;
+    END IF;
+
+    SELECT COUNT(1) INTO v_count FROM hunter WHERE id_hunter = p_id_hunter;
+    IF v_count = 0 THEN
+        p_result := ResultObj(0, 'Hunter does not exist', NULL);
+        RETURN;
+    END IF;
+
+    DELETE FROM hunter
+    WHERE id_hunter = p_id_hunter;
+
+    COMMIT;
+
+    p_result := ResultObj(1, 'Hunter deleted successfully', null);
+EXCEPTION
+    WHEN OTHERS THEN
+        p_result := ResultObj(0, SQLERRM, NULL);
+        ROLLBACK;    
+END;
 
 -- Query --------------------------------------------------------
 -- --------------------------------------------------------------

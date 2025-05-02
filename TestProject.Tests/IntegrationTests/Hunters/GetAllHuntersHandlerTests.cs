@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Logging;
 using ClassLibrary.HxH_Services.Features.Hunters.GetAll;
 using ClassLibrary.HxH_Services.Features.Hunters;
+using ClassLibrary.HxH_Services.Shared.Common;
 
 namespace TestProject.Tests.IntegrationTests.Hunters;
 
@@ -22,10 +23,11 @@ public class GetAllHuntersHandlerTests
         var cancellationToken = CancellationToken.None;
 
         // Act
-        var hunters = await handler.Handle(query, cancellationToken);
+        var result = await handler.Handle(query, cancellationToken);
 
         // Assert
-        Assert.NotNull(hunters);
-        Assert.IsType<List<HunterDto>>(hunters);
+        Assert.IsType<QueryResult<List<HunterDto>>>(result);
+        Assert.True(result.IsSuccess);
+        Assert.NotNull(result.Data);
     }
 }

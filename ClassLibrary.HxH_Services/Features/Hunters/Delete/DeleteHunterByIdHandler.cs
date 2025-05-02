@@ -20,20 +20,17 @@ public class DeleteHunterByIdHandler
     {
         _logger.LogInformation("[DeleteHunterByIdHandler] Start handling DeleteHunterByIdCommand.");
 
-        if (command.Id_Hunter <= 0)
+        var validateIdResult = HunterValidationId.ValidateId(command.Id_Hunter);
+        if (validateIdResult != null)
         {
-            _logger.LogWarning("[DeleteHunterByIdHandler] Invalid Id_Hunter: {Id_Hunter}", command.Id_Hunter);
-            return QueryResult<int>.Failure("Invalid Id_Hunter");
+            _logger.LogWarning("[UpdateHunterHandler] Validation failed: {ValidationResult}", validateIdResult);
+            return QueryResult<int>.Failure(validateIdResult);
         }
 
         try
         {
-            var parameters = new OracleParameter[]
-            {
-                new OracleParameter("Id_Hunter", command.Id_Hunter),
-            };
-
-            var checkExistsQuery = "SELECT COUNT(1) FROM Hunter WHERE Id_Hunter =: Id_Hunter";
+            var parameters = new OracleParameter("Id_Hunter", command.Id_Hunter);
+            var checkExistsQuery = "SELECT COUNT(1) FROM Hunter WHERE Id_Hunter = :Id_Hunter";
             var rowCount = await _dbContext.ExecuteScalarAsync<int>(cancellationToken, checkExistsQuery, parameters);
 
             if (rowCount == 0)
@@ -56,6 +53,11 @@ public class DeleteHunterByIdHandler
 
             _logger.LogInformation("[DeleteHunterByIdHandler] Deleted {AffectedRows} rows.", affectedRows);
             return QueryResult<int>.Success("Hunter deleted successfully", affectedRows);
+        }
+        catch (OracleException ex)
+        {
+            _logger.LogError(ex, "[DeleteHunterByIdHandler] Oracle error while deleting hunter.");
+            return QueryResult<int>.Failure("An error occurred while deleting the hunter.");
         }
         catch (Exception ex)
         {
