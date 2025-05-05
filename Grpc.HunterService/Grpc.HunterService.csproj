@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.64.0" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="Protos\hunter_proto.proto" GrpcServices="Server" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+    <ProjectReference Include="..\ClassLibrary.HxH_Services\ClassLibrary.HxH_Services.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,14 +1,30 @@
-﻿# HxH gRPC Microservices Vertical Slice Architecture
+﻿# HxH gRPC Microservices
+
+>### .NET 9 Vertical Slice Architecture
 
 ### Packages
-- HxH.Services
+- ClassLibrary.HxH_Services
 ```
 Microsoft.Extensions.Logging.Abstractions
 Oracle.ManagedDataAccess.Core
 ```
+- Grpc.HunterService
+```
+ClassLibrary.HxH_Services
+Grpc.AspNetCore
+```
+- TestConsoleApp
+```
+Google.Protobuf
+Grpc.Net.Client
+Grpc.Tools
+```
 - TestProject.Tests
 ```
 ClassLibrary.HxH_Services
+Grpc.Net.Client
+Grpc.HunterService
+Microsoft.AspNetCore.Mvc.Testing
 ```
 
 ### Design Patterns
@@ -64,6 +80,21 @@ graph TD;
 │   └── Shared/
 │       └── Common/
 │           └── QueryResult.cs
+│
+├── Grpc.HunterService/
+│   ├── Protos/
+│   │   └── hunter_proto.proto
+│   ├── Services/
+│   │   └── GrpcHunterService.cs
+│   ├── appsettings.json
+│   └── Program.cs
+│
+├── TestConsoleApp/
+│   ├── Protos/
+│   │   └── hunter_proto.proto
+│   ├── Services/
+│   │   └── GrpcClientHunterService.cs
+│   └── Program.cs
 │
 └── TestProject.Tests/
     ├── IntegrationTests/

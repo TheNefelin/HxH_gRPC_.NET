@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject.Tests", "TestProject.Tests\TestProject.Tests.csproj", "{F0F94D2E-40DB-4667-BB34-EA72DC79C1EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grpc.HunterService", "Grpc.HunterService\Grpc.HunterService.csproj", "{CC0ACE20-8D49-4566-A095-DED47038330F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleApp", "TestConsoleApp\TestConsoleApp.csproj", "{4A51C84B-8956-43FB-ADBB-95AF204A35E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{F0F94D2E-40DB-4667-BB34-EA72DC79C1EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0F94D2E-40DB-4667-BB34-EA72DC79C1EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0F94D2E-40DB-4667-BB34-EA72DC79C1EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC0ACE20-8D49-4566-A095-DED47038330F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC0ACE20-8D49-4566-A095-DED47038330F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC0ACE20-8D49-4566-A095-DED47038330F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC0ACE20-8D49-4566-A095-DED47038330F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A51C84B-8956-43FB-ADBB-95AF204A35E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A51C84B-8956-43FB-ADBB-95AF204A35E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A51C84B-8956-43FB-ADBB-95AF204A35E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A51C84B-8956-43FB-ADBB-95AF204A35E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
