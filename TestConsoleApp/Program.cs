@@ -1,35 +1,20 @@
-﻿// See https://aka.ms/new-console-template for more information
-using Grpc.HunterService.Protos;
-using Grpc.Net.Client;
+﻿using TestConsoleApp.Services;
 
 Console.WriteLine("gRPC Test!");
 
-var channel = GrpcChannel.ForAddress("https://localhost:7001");
-var client = new HunterProtoService.HunterProtoServiceClient(channel);
+var serviceUrl = "https://localhost:7001";
+var grpcHunter = new GrpcClientHunterService(serviceUrl);
 
-try
-{
-    var response = await client.GetAllHunterAsync(new EmptyRequest());
-
-
-    if (response.IsSuccess)
-    {
-        Console.WriteLine("Request succeeded!");
-
-        foreach (var hunter in response.Data)
-        {
-            Console.WriteLine($"Id: {hunter.IdHunter}, Name: {hunter.Name}, Age: {hunter.Age}, Origin: {hunter.Origin}");
-        }
-    }
-    else
-    {
-        Console.WriteLine("Request failed.");
-    }
-
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"Error: {ex.Message}");
-}
+Console.WriteLine("-----------------------------------");
+await grpcHunter.GetAll();
+Console.WriteLine("-----------------------------------");
+await grpcHunter.GetById(1);
+Console.WriteLine("-----------------------------------");
+var id = await grpcHunter.Create("Test1", 100, "Test1");
+Console.WriteLine("-----------------------------------");
+await grpcHunter.Update(id, "Test2", 200, "Test2");
+Console.WriteLine("-----------------------------------");
+await grpcHunter.Delete(id);
+Console.WriteLine("-----------------------------------");
 
 Console.ReadKey();

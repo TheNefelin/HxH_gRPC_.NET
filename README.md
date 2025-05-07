@@ -82,6 +82,8 @@ graph TD;
 │           └── QueryResult.cs
 │
 ├── Grpc.HunterService/
+│   ├── Mappers/
+│   │   └── GrpcHunterMapper.cs
 │   ├── Protos/
 │   │   └── hunter_proto.proto
 │   ├── Services/
@@ -99,6 +101,8 @@ graph TD;
 └── TestProject.Tests/
     ├── IntegrationTests/
     │   ├── Hunters/
+    │   │   ├── Grpc/
+    │   │   │   └── GrpcHunterServiceTests.cs
     │   │   ├── CreateHunterHandlerTests.cs
     │   │   ├── DeleteHunterByIdHandlerTests.cs
     │   │   ├── GetAllHuntersHandlerTests.cs
